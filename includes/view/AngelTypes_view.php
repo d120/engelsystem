@@ -73,9 +73,6 @@ function AngelType_view($angeltype, $members, $user_angeltype, $admin_user_angel
       button(page_link_to('angeltypes'), _("Angeltypes"), 'back') 
   ];
   
-  if ($angeltype['requires_driver_license'])
-    $buttons[] = button(user_driver_license_edit_link($user), glyph("road") . _("my driving license"));
-  
   if ($user_angeltype == null)
     $buttons[] = button(page_link_to('user_angeltypes') . '&action=add&angeltype_id=' . $angeltype['id'], _("join"), 'add');
   else {
