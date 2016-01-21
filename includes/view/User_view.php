@@ -85,7 +85,7 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
           'Nick' => Users_table_header_link('Nick', _('Nick'), $order_by),
           'Vorname' => Users_table_header_link('Vorname', _('Prename'), $order_by),
           'Name' => Users_table_header_link('Name', _('Name'), $order_by),
-          'DECT' => Users_table_header_link('DECT', _('DECT'), $order_by),
+          'Handy' => Users_table_header_link('Handy', _('Handy'), $order_by),
           'Gekommen' => Users_table_header_link('Gekommen', _('Arrived'), $order_by),
           'got_voucher' => Users_table_header_link('got_voucher', _('Voucher'), $order_by),
           'freeloads' => _('Freeloads'),
@@ -197,7 +197,7 @@ function User_view($user_source, $admin_user_privilege, $freeloader, $user_angel
           div('col-md-3', array(
               '<h1>',
               '<span class="glyphicon glyphicon-phone"></span>',
-              $user_source['DECT'],
+              $user_source['Handy'],
               '</h1>' 
           )),
           div('col-md-3', array(

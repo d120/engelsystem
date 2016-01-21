@@ -71,8 +71,8 @@ function header_toolbar() {
       $glyphicon = 'warning-sign';
     }
     
-    if ($user['DECT'] == "") {
-      $hints[] = error(_("You need to specify a DECT phone number in your settings! If you don't have a DECT phone, just enter \"-\"."), true);
+    if ($user['Handy'] == "") {
+      $hints[] = info(_("Please specify a mobilephone number in your settings."), true);
       $hint_class = 'danger';
       $glyphicon = 'warning-sign';
     }

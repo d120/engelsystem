@@ -206,13 +206,10 @@ function guest_register() {
               )),
               div('col-md-6', array(
                   div('row', array(
-                      div('col-sm-4', array(
-                          form_text('dect', _("DECT"), $dect) 
-                      )),
-                      div('col-sm-4', array(
+                      div('col-sm-6', array(
                           form_text('mobile', _("Mobile"), $mobile) 
                       )),
-                      div('col-sm-4', array(
+                      div('col-sm-6', array(
                           form_text('tel', _("Phone"), $tel) 
                       )) 
                   )),
