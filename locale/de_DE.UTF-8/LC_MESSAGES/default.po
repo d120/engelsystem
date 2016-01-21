@@ -48,11 +48,9 @@ msgstr "Bitte eine T-Shirt-Größe auswählen"
 
 #: /Users/msquare/workspace/projects/engelsystem/includes/sys_menu.php:75
 msgid ""
-"You need to specify a DECT phone number in your settings! If you don't have "
-"a DECT phone, just enter \"-\"."
+"Please specify a mobilephone number in your settings."
 msgstr ""
-"Bitte eine DECT-Telefonnummer in den Einstellungen eingeben. Wenn du noch "
-"keine Nummer hast, bitte einfach \"-\" angeben."
+"Bitte gib eine Handynummer in den Einstellungen an."
 
 #: /Users/msquare/workspace/projects/engelsystem/includes/sys_menu.php:136
 msgid "Admin"
