@@ -141,14 +141,14 @@ function AngelType_view($angeltype, $members, $user_angeltype, $admin_user_angel
   
   $table_headers = [
       'Nick' => _("Nick"),
-      'DECT' => _("DECT"),
+      'Handy' => _("Handy"),
       'actions' => '' 
   ];
   
   if ($angeltype['requires_driver_license'] && ($coordinator || $admin_angeltypes))
     $table_headers = [
         'Nick' => _("Nick"),
-        'DECT' => _("DECT"),
+        'Handy' => _("Handy"),
         'wants_to_drive' => _("Driver"),
         'has_car' => _("Has car"),
         'has_license_car' => _("Car"),
@@ -167,14 +167,14 @@ function AngelType_view($angeltype, $members, $user_angeltype, $admin_user_angel
   if (count($members_confirmed) > 0)
     $members_confirmed[] = [
         'Nick' => _('Sum'),
-        'DECT' => count($members_confirmed),
+        'Handy' => count($members_confirmed),
         'actions' => '' 
     ];
   
   if (count($members_unconfirmed) > 0)
     $members_unconfirmed[] = [
         'Nick' => _('Sum'),
-        'DECT' => count($members_unconfirmed),
+        'Handy' => count($members_unconfirmed),
         'actions' => '' 
     ];
   
