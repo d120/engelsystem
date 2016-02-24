@@ -413,8 +413,23 @@ function view_user_shifts() {
       $_SESSION['user_shifts'][$key . '_time'] = $_REQUEST[$key . '_time'];
     if (! isset($_SESSION['user_shifts'][$key . '_day'])) {
       $time = date('Y-m-d', time() + ($key == 'end' ? 24 * 60 * 60 : 0));
+
+      if (in_array($time, $days)) {
+          $_SESSION['user_shifts'][$key . '_day'] = time;
+
+          if (! isset($_SESSION['user_shifts'][$key . '_time']))
+              $_SESSION['user_shifts'][$key . '_time'] = date('H:i');
+
+      } else {
+          $_SESSION['user_shifts'][$key . '_day'] = $key == 'end' ? max($days) : min($days);
+
+          if (! isset($_SESSION['user_shifts'][$key . '_time']))
+              $_SESSION['user_shifts'][$key . '_time'] = $key == 'end' ? '23:59' : '00:00';
+      }
+
       $_SESSION['user_shifts'][$key . '_day'] = in_array($time, $days) ? $time : ($key == 'end' ? max($days) : min($days));
     }
+
     if (! isset($_SESSION['user_shifts'][$key . '_time']))
       $_SESSION['user_shifts'][$key . '_time'] = date('H:i');
   }
