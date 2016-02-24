@@ -48,7 +48,7 @@ msgstr "Bitte eine T-Shirt-Größe auswählen"
 
 #: /Users/msquare/workspace/projects/engelsystem/includes/sys_menu.php:75
 msgid ""
-"Please specify a mobilephone number in your settings."
+"Please specify a mobile phone number in your settings."
 msgstr ""
 "Bitte gib eine Handynummer in den Einstellungen an."
 
