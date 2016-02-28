@@ -72,7 +72,7 @@ function header_toolbar() {
     }
     
     if ($user['Handy'] == "") {
-      $hints[] = info(_("Please specify a mobilephone number in your settings."), true);
+      $hints[] = info(_("Please specify a mobile phone number in your settings."), true);
       $hint_class = 'danger';
       $glyphicon = 'warning-sign';
     }
