@@ -53,16 +53,17 @@ function User_edit_vouchers_view($user) {
 }
 
 function Users_view($users, $order_by, $arrived_count, $active_count, $force_active_count, $freeloads_count, $tshirts_count, $voucher_count) {
-  foreach ($users as &$user) {
-    $user['Nick'] = User_Nick_render($user);
-    $user['Gekommen'] = glyph_bool($user['Gekommen']);
-    $user['got_voucher'] = $user['got_voucher'];
-    $user['Aktiv'] = glyph_bool($user['Aktiv']);
-    $user['force_active'] = glyph_bool($user['force_active']);
-    $user['Tshirt'] = glyph_bool($user['Tshirt']);
-    $user['lastLogIn'] = date(_('m/d/Y h:i a'), $user['lastLogIn']);
-    $user['actions'] = table_buttons(array(
-        button_glyph(page_link_to('admin_user') . '&id=' . $user['UID'], 'edit', 'btn-xs') 
+  global $user;
+  foreach ($users as &$user_item) {
+    $user_item['Nick'] = User_Nick_render($user_item);
+    $user_item['Gekommen'] = glyph_bool($user_item['Gekommen']);
+    $user_item['got_voucher'] = $user_item['got_voucher'];
+    $user_item['Aktiv'] = glyph_bool($user_item['Aktiv']);
+    $user_item['force_active'] = glyph_bool($user_item['force_active']);
+    $user_item['Tshirt'] = glyph_bool($user_item['Tshirt']);
+    $user_item['lastLogIn'] = date(_('m/d/Y h:i a'), $user_item['lastLogIn']);
+    $user_item['actions'] = table_buttons(array(
+        button_glyph(page_link_to('admin_user') . '&id=' . $user_item['UID'], 'edit', 'btn-xs')
     ));
   }
   $users[] = array(
@@ -79,7 +80,9 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
   return page_with_title(_('All users'), array(
       msg(),
       buttons(array(
-          button(page_link_to('register'), glyph('plus') . _('New user')) 
+          button(page_link_to('register'), glyph('plus') . _('New user')),
+          button(page_link_to('admin_export_users')."&type=csv&key=".$user['api_key'], _('Export CVS')),
+          button(page_link_to('admin_export_users')."&type=mail&key=".$user['api_key'], _('Export Mail'))
       )),
       table(array(
           'Nick' => Users_table_header_link('Nick', _('Nick'), $order_by),

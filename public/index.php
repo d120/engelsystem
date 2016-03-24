@@ -14,7 +14,8 @@ $free_pages = array(
     'shifts_json_export',
     'shifts',
     'atom',
-    'login'
+    'login',
+    'admin_export_users'
 );
 
 // Gewünschte Seite/Funktion
@@ -130,6 +131,13 @@ if (isset($_REQUEST['p']) && preg_match("/^[a-z0-9_]*$/i", $_REQUEST['p']) && (i
   } elseif ($p == "admin_shifts") {
     $title = admin_shifts_title();
     $content = admin_shifts();
+  } elseif ($p == "admin_export_users"){
+    require_once realpath(__DIR__ . '/../includes/controller/export_users_controller.php');
+    if(isset($_REQUEST['type']))
+      $type=$_REQUEST['type'];
+    else
+      $ype='csv';
+    users_export_controller($type);
   } elseif ($p == "admin_log") {
     $title = admin_log_title();
     $content = admin_log();
