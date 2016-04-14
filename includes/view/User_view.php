@@ -81,7 +81,7 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
       msg(),
       buttons(array(
           button(page_link_to('register'), glyph('plus') . _('New user')),
-          button(page_link_to('admin_export_users')."&type=csv&key=".$user['api_key'], _('Export CVS')),
+          button(page_link_to('admin_export_users')."&type=csv&key=".$user['api_key'], _('Export CSV')),
           button(page_link_to('admin_export_users')."&type=mail&key=".$user['api_key'], _('Export Mail'))
       )),
       table(array(
