@@ -16,7 +16,7 @@ $tshirt_sizes = array(
     'S-G' => "S Girl",
     'M-G' => "M Girl",
     'L-G' => "L Girl",
-    'XL-G' => "XL Girl" 
+    'XL-G' => "XL Girl"
 );
 
 /**
@@ -26,13 +26,13 @@ function User_delete_view($user) {
   return page_with_title(sprintf(_("Delete %s"), User_Nick_render($user)), [
       msg(),
       buttons([
-          button(user_edit_link($user), glyph('chevron-left') . _("back")) 
+          button(user_edit_link($user), glyph('chevron-left') . _("back"))
       ]),
       error(_("Do you really want to delete the user including all his shifts and every other piece of his data?"), true),
       form([
           form_password('password', _("Your password")),
-          form_submit('submit', _("Delete")) 
-      ]) 
+          form_submit('submit', _("Delete"))
+      ])
   ]);
 }
 
@@ -43,12 +43,12 @@ function User_edit_vouchers_view($user) {
   return page_with_title(sprintf(_("%s's vouchers"), User_Nick_render($user)), [
       msg(),
       buttons([
-          button(user_link($user), glyph('chevron-left') . _("back")) 
+          button(user_link($user), glyph('chevron-left') . _("back"))
       ]),
       form([
           form_spinner('vouchers', _("Number of vouchers"), $user['got_voucher']),
-          form_submit('submit', _("Save")) 
-      ], page_link_to('users') . '&action=edit_vouchers&user_id=' . $user['UID']) 
+          form_submit('submit', _("Save"))
+      ], page_link_to('users') . '&action=edit_vouchers&user_id=' . $user['UID'])
   ]);
 }
 
@@ -74,9 +74,9 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
       'force_active' => $force_active_count,
       'freeloads' => $freeloads_count,
       'Tshirt' => $tshirts_count,
-      'actions' => '<strong>' . count($users) . '</strong>' 
+      'actions' => '<strong>' . count($users) . '</strong>'
   );
-  
+
   return page_with_title(_('All users'), array(
       msg(),
       buttons(array(
@@ -97,8 +97,8 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
           'Tshirt' => Users_table_header_link('Tshirt', _('T-Shirt'), $order_by),
           'Size' => Users_table_header_link('Size', _('Size'), $order_by),
           'lastLogIn' => Users_table_header_link('lastLogIn', _('Last login'), $order_by),
-          'actions' => '' 
-      ), $users) 
+          'actions' => ''
+      ), $users)
   ));
 }
 
@@ -110,18 +110,18 @@ function User_shift_state_render($user) {
   $upcoming_shifts = ShiftEntries_upcoming_for_user($user);
   if ($upcoming_shifts === false)
     return false;
-  
+
   if (count($upcoming_shifts) == 0)
     return '<span class="text-success">' . _("Free") . '</span>';
-  
+
   if ($upcoming_shifts[0]['start'] > time())
     if ($upcoming_shifts[0]['start'] - time() > 3600)
       return '<span class="text-success moment-countdown" data-timestamp="' . $upcoming_shifts[0]['start'] . '">' . _("Next shift %c") . '</span>';
     else
       return '<span class="text-warning moment-countdown" data-timestamp="' . $upcoming_shifts[0]['start'] . '">' . _("Next shift %c") . '</span>';
-  
+
   $halfway = ($upcoming_shifts[0]['start'] + $upcoming_shifts[0]['end']) / 2;
-  
+
   if (time() < $halfway)
     return '<span class="text-danger moment-countdown" data-timestamp="' . $upcoming_shifts[0]['start'] . '">' . _("Shift starts %c") . '</span>';
   else
@@ -130,9 +130,9 @@ function User_shift_state_render($user) {
 
 function User_view($user_source, $admin_user_privilege, $freeloader, $user_angeltypes, $user_groups, $shifts, $its_me) {
   global $LETZTES_AUSTRAGEN, $privileges;
-  
+
   $user_name = htmlspecialchars($user_source['Vorname']) . " " . htmlspecialchars($user_source['Name']);
-  
+
   $myshifts_table = array();
   $html = "";
   $timesum = 0;
@@ -142,42 +142,42 @@ function User_view($user_source, $admin_user_privilege, $freeloader, $user_angel
       $shift_info .= '<br /><a href="' . shift_link($shift) . '">' . $shift['title'] . '</a>';
     foreach ($shift['needed_angeltypes'] as $needed_angel_type) {
       $shift_info .= '<br><b>' . $needed_angel_type['name'] . ':</b> ';
-      
+
       $shift_entries = array();
       foreach ($needed_angel_type['users'] as $user_shift) {
         $member = User_Nick_render($user_shift);
         if ($user_shift['freeloaded'])
           $member = '<strike>' . $member . '</strike>';
-        
+
         $shift_entries[] = $member;
       }
       $shift_info .= join(", ", $shift_entries);
     }
-    
+
     $myshift = array(
         'date' => date("Y-m-d", $shift['start']),
         'time' => date("H:i", $shift['start']) . ' - ' . date("H:i", $shift['end']),
         'room' => $shift['Name'],
         'shift_info' => $shift_info,
-        'comment' => $shift['Comment'] 
+        'comment' => $shift['Comment']
     );
-    
+
     if ($shift['freeloaded']) {
       if (in_array("user_shifts_admin", $privileges))
         $myshift['comment'] .= '<br /><p class="error">' . _("Freeloaded") . ': ' . $shift['freeload_comment'] . '</p>';
       else
         $myshift['comment'] .= '<br /><p class="error">' . _("Freeloaded") . '</p>';
     }
-    
+
     $myshift['actions'] = [
-        button(shift_link($shift), glyph('eye-open') . _('view'), 'btn-xs') 
+        button(shift_link($shift), glyph('eye-open') . _('view'), 'btn-xs')
     ];
     if ($its_me || in_array('user_shifts_admin', $privileges))
       $myshift['actions'][] = button(page_link_to('user_myshifts') . '&edit=' . $shift['id'] . '&id=' . $user_source['UID'], glyph('edit') . _('edit'), 'btn-xs');
     if (($shift['start'] > time() + $LETZTES_AUSTRAGEN * 3600) || in_array('user_shifts_admin', $privileges))
       $myshift['actions'][] = button(page_link_to('user_myshifts') . ((! $its_me) ? '&id=' . $user_source['UID'] : '') . '&cancel=' . $shift['id'], glyph('trash') . _('sign off'), 'btn-xs');
     $myshift['actions'] = table_buttons($myshift['actions']);
-    
+
     if ($shift['freeloaded'])
       $timesum += (- 2 * ($shift['end'] - $shift['start']));
     else
@@ -191,17 +191,17 @@ function User_view($user_source, $admin_user_privilege, $freeloader, $user_angel
         'room' => "",
         'shift_info' => "",
         'comment' => "",
-        'actions' => "" 
+        'actions' => ""
     );
-  
+
   return page_with_title('<span class="icon-icon_angel"></span> ' . htmlspecialchars($user_source['Nick']) . ' <small>' . $user_name . '</small>', array(
       msg(),
       div('row', array(
           div('col-md-3', array(
               '<h1>',
               '<span class="glyphicon glyphicon-phone"></span>',
-              $user_source['Handy'],
-              '</h1>' 
+              ($admin_user_privilege || $its_me) ? $user_source['Handy'] : 'Nur für Erzengel sichtbar.',
+              '</h1>'
           )),
           div('col-md-3', array(
               '<h4>' . _("User state") . '</h4>',
@@ -210,16 +210,16 @@ function User_view($user_source, $admin_user_privilege, $freeloader, $user_angel
               $admin_user_privilege || $its_me ? ($user_source['Gekommen'] ? '<span class="text-success"><span class="glyphicon glyphicon-home"></span> ' . sprintf(_("Arrived at %s"), date('Y-m-d', $user_source['arrival_date'])) . '</span>' : '<span class="text-danger">' . sprintf(_("Not arrived (Planned: %s)"), date('Y-m-d', $user_source['planned_arrival_date'])) . '</span>') : ($user_source['Gekommen'] ? '<span class="text-success"><span class="glyphicon glyphicon-home"></span> ' . _("Arrived") . '</span>' : '<span class="text-danger">' . _("Not arrived") . '</span>'),
               $admin_user_privilege ? ($user_source['got_voucher'] > 0 ? '<br /><span class="text-success">' . glyph('cutlery') . sprintf(ngettext("Got %s voucher", "Got %s vouchers", $user_source['got_voucher']), $user_source['got_voucher']) . '</span><br />' : '<br /><span class="text-danger">' . _("Got no vouchers") . '</span><br />') : '',
               ($user_source['Gekommen'] && $admin_user_privilege && $user_source['Aktiv']) ? ' <span class="text-success">' . _("Active") . '</span>' : '',
-              ($user_source['Gekommen'] && $admin_user_privilege && $user_source['Tshirt']) ? ' <span class="text-success">' . _("T-Shirt") . '</span>' : '' 
+              ($user_source['Gekommen'] && $admin_user_privilege && $user_source['Tshirt']) ? ' <span class="text-success">' . _("T-Shirt") . '</span>' : ''
           )),
           div('col-md-3', array(
               '<h4>' . _("Angeltypes") . '</h4>',
-              User_angeltypes_render($user_angeltypes) 
+              User_angeltypes_render($user_angeltypes)
           )),
           div('col-md-3', array(
               '<h4>' . _("Rights") . '</h4>',
-              User_groups_render($user_groups) 
-          )) 
+              User_groups_render($user_groups)
+          ))
       )),
       div('row space-top', array(
           div('col-md-12', array(
@@ -230,9 +230,9 @@ function User_view($user_source, $admin_user_privilege, $freeloader, $user_angel
                   $its_me ? button(page_link_to('user_settings'), glyph('list-alt') . _("Settings")) : '',
                   $its_me ? button(page_link_to('ical') . '&key=' . $user_source['api_key'], glyph('calendar') . _("iCal Export")) : '',
                   $its_me ? button(page_link_to('shifts_json_export') . '&key=' . $user_source['api_key'], glyph('export') . _("JSON Export")) : '',
-                  $its_me ? button(page_link_to('user_myshifts') . '&reset', glyph('repeat') . _('Reset API key')) : '' 
-              )) 
-          )) 
+                  $its_me ? button(page_link_to('user_myshifts') . '&reset', glyph('repeat') . _('Reset API key')) : ''
+              ))
+          ))
       )),
       ($its_me || $admin_user_privilege) ? '<h2>' . _("Shifts") . '</h2>' : '',
       ($its_me || $admin_user_privilege) ? table(array(
@@ -241,10 +241,10 @@ function User_view($user_source, $admin_user_privilege, $freeloader, $user_angel
           'room' => _("Location"),
           'shift_info' => _("Name &amp; workmates"),
           'comment' => _("Comment"),
-          'actions' => _("Action") 
+          'actions' => _("Action")
       ), $myshifts_table) : '',
       //$its_me ? info(glyph('info-sign') . _("Your night shifts between 2 and 8 am count twice."), true) : '',
-      $its_me && count($shifts) == 0 ? error(sprintf(_("Go to the <a href=\"%s\">shifts table</a> to sign yourself up for some shifts."), page_link_to('user_shifts')), true) : '' 
+      $its_me && count($shifts) == 0 ? error(sprintf(_("Go to the <a href=\"%s\">shifts table</a> to sign yourself up for some shifts."), page_link_to('user_shifts')), true) : ''
   ));
 }
 
@@ -257,8 +257,8 @@ function User_password_recovery_view() {
       _("We will send you an e-mail with a password recovery link. Please use the email address you used for registration."),
       form(array(
           form_text('email', _("E-Mail"), ""),
-          form_submit('submit', _("Recover")) 
-      )) 
+          form_submit('submit', _("Recover"))
+      ))
   ));
 }
 
@@ -272,8 +272,8 @@ function User_password_set_view() {
       form(array(
           form_password('password', _("Password")),
           form_password('password2', _("Confirm password")),
-          form_submit('submit', _("Save")) 
-      )) 
+          form_submit('submit', _("Save"))
+      ))
   ));
 }
 
@@ -304,7 +304,7 @@ function User_groups_render($user_groups) {
 /**
  * Render a user nickname.
  *
- * @param User $user_source          
+ * @param User $user_source
  * @return string
  */
 function User_Nick_render($user_source) {
