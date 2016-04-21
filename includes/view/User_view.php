@@ -58,6 +58,7 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
     $user_item['Nick'] = User_Nick_render($user_item);
     $user_item['Gekommen'] = glyph_bool($user_item['Gekommen']);
     $user_item['got_voucher'] = $user_item['got_voucher'];
+    $user_item['kiffel'] = glyph_bool($user_item['kiffel']);
     $user_item['Aktiv'] = glyph_bool($user_item['Aktiv']);
     $user_item['force_active'] = glyph_bool($user_item['force_active']);
     $user_item['Tshirt'] = glyph_bool($user_item['Tshirt']);
@@ -90,6 +91,7 @@ function Users_view($users, $order_by, $arrived_count, $active_count, $force_act
           'Name' => Users_table_header_link('Name', _('Name'), $order_by),
           'Handy' => Users_table_header_link('Handy', _('Handy'), $order_by),
           'Gekommen' => Users_table_header_link('Gekommen', _('Arrived'), $order_by),
+          'kiffel' => Users_table_header_link('kiffel', _('KIFfel'),$order_by),
           'got_voucher' => Users_table_header_link('got_voucher', _('Voucher'), $order_by),
           'freeloads' => _('Freeloads'),
           'Aktiv' => Users_table_header_link('Aktiv', _('Active'), $order_by),
