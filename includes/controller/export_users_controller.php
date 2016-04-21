@@ -68,15 +68,29 @@ function export_csv(){
     kdv_id = models.CharField(max_length=32, null=True, blank=True, verbose_name='KDV-ID')
     ist_orga = models.BooleanField(default=False, verbose_name='Kiffel ist Orga')
 ***/
-	$user_list = sql_select("SELECT UID, Nick, Vorname, Name, email, size, kommentar FROM  User ");
-	header('Content-Type: text/csv; charset=utf-8');
-	header('Content-Disposition: attachment; filename=data.csv');
+	$user_list = sql_select("SELECT u.UID, u.Nick, u.Vorname, u.Name, u.email, u.size, u.kommentar 
+           ,   
+           (select GROUP_CONCAT(atyp.name separator '|') from UserAngelTypes uat 
+              INNER JOIN AngelTypes atyp ON uat.angeltype_id=atyp.id
+              where u.UID=uat.user_id
+           ) AngelTypes,
+           
+           (select GROUP_CONCAT(g.Name separator '|') from UserGroups ug 
+              INNER JOIN Groups g ON ug.group_id=g.UID 
+              where u.UID=ug.uid
+           ) Groups
+           
+          FROM  User u
+          ");
+        
+	header('Content-Type: text/plain; charset=utf-8');
+	//header('Content-Disposition: attachment; filename=data.csv');
 
 // create a file pointer connected to the output stream
 	$output = fopen('php://output', 'w');
 
 // output the column headings
-	fputcsv($output, array('ID', "nickname", "vorname", "nachname", "email", "tshirt_groesse", "kommentar_orga"));
+	fputcsv($output, array('ID', "nickname", "vorname", "nachname", "email", "tshirt_groesse", "kommentar_orga", "AngelTypes", "Groups"));
 	foreach($user_list as &$user){
 		fputcsv($output, $user);
 	}
