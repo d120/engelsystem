@@ -41,7 +41,6 @@ function admin_user() {
     $html .= "<tr><td>" . form_checkbox('email_shiftinfo', _("Please send me an email if my shifts change"), $user_source['email_shiftinfo']) . "</td></tr>\n";
     $html .= "  <tr><td>jabber</td><td>" . "<input type=\"text\" size=\"40\" name=\"ejabber\" value=\"" . $user_source['jabber'] . "\"></td></tr>\n";
     $html .= "  <tr><td>Size</td><td>" . html_select_key('size', 'eSize', $tshirt_sizes, $user_source['Size']) . "</td></tr>\n";
-    
     $options = array(
         '1' => "Yes",
         '0' => "No" 
@@ -60,11 +59,14 @@ function admin_user() {
       $html .= "  <tr><td>" . _("Force active") . "</td><td>\n";
       $html .= html_options('force_active', $options, $user_source['force_active']) . "</td></tr>\n";
     }
-    
+
+
     // T-Shirt bekommen?
     $html .= "  <tr><td>T-Shirt</td><td>\n";
     $html .= html_options('eTshirt', $options, $user_source['Tshirt']) . "</td></tr>\n";
-    
+    $html .= "  <tr><td>KIFFEL</td><td>\n";
+    $html .= html_options('kiffel', $options, $user_source['kiffel']) . "</td></tr>\n";
+
     $html .= "  <tr><td>Hometown</td><td>" . "<input type=\"text\" size=\"40\" name=\"Hometown\" value=\"" . $user_source['Hometown'] . "\"></td></tr>\n";
     
     $html .= "</table>\n</td><td valign=\"top\"></td></tr>";
@@ -176,7 +178,8 @@ function admin_user() {
               `Aktiv`= '" . sql_escape($_POST["eAktiv"]) . "', 
               `force_active`= " . sql_escape($force_active) . ", 
               `Tshirt` = '" . sql_escape($_POST["eTshirt"]) . "', 
-              `Hometown` = '" . sql_escape($_POST["Hometown"]) . "' 
+              `Hometown` = '" . sql_escape($_POST["Hometown"]) . "', 
+              `kiffel` = '" . sql_escape($_POST["kiffel"]) . "' 
               WHERE `UID` = '" . sql_escape($id) . "' 
               LIMIT 1";
         sql_query($SQL);

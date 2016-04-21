@@ -40,7 +40,8 @@ function User_update($user) {
       `Hometown`='" . sql_escape($user['Hometown']) . "',
       `got_voucher`='" . sql_escape($user['got_voucher']) . "',
       `arrival_date`='" . sql_escape($user['arrival_date']) . "',
-      `planned_arrival_date`='" . sql_escape($user['planned_arrival_date']) . "'
+      `planned_arrival_date`='" . sql_escape($user['planned_arrival_date']) . "',
+      `kiffel` ='".sql_escape($user['kiffel'])."'
       WHERE `UID`='" . sql_escape($user['UID']) . "'");
 }
 
@@ -83,7 +84,7 @@ function User_sortable_columns() {
       'Aktiv',
       'force_active',
       'Tshirt',
-      'lastLogIn' 
+      'lastLogIn',
   );
 }
 
