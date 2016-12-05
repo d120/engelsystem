@@ -1,148 +1,96 @@
--- phpMyAdmin SQL Dump
--- version 4.0.4.1
--- http://www.phpmyadmin.net
+-- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
 --
--- Host: localhost
--- Erstellungszeit: 25. Aug 2015 um 15:29
--- Server Version: 5.6.12
--- PHP-Version: 5.5.3
+-- Host: localhost    Database: engelsystem
+-- ------------------------------------------------------
+-- Server version	5.5.53-0+deb8u1
 
-SET FOREIGN_KEY_CHECKS=0;
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
--- --------------------------------------------------------
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Tabellenstruktur für Tabelle `AngelTypes`
+-- Table structure for table `AngelTypes`
 --
 
 DROP TABLE IF EXISTS `AngelTypes`;
-CREATE TABLE IF NOT EXISTS `AngelTypes` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AngelTypes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `restricted` int(1) NOT NULL,
   `description` text NOT NULL,
+  `requires_driver_license` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `GroupPrivileges`
+-- Table structure for table `GroupPrivileges`
 --
 
 DROP TABLE IF EXISTS `GroupPrivileges`;
-CREATE TABLE IF NOT EXISTS `GroupPrivileges` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `GroupPrivileges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
   `privilege_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`,`privilege_id`),
-  KEY `privilege_id` (`privilege_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=259 ;
+  KEY `privilege_id` (`privilege_id`),
+  CONSTRAINT `groupprivileges_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `groupprivileges_ibfk_2` FOREIGN KEY (`privilege_id`) REFERENCES `Privileges` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Daten für Tabelle `GroupPrivileges`
---
-
-INSERT INTO `GroupPrivileges` (`id`, `group_id`, `privilege_id`) VALUES
-(85, -7, 10),
-(87, -7, 18),
-(86, -7, 21),
-(216, -6, 5),
-(212, -6, 6),
-(207, -6, 7),
-(211, -6, 12),
-(208, -6, 13),
-(210, -6, 14),
-(214, -6, 16),
-(209, -6, 21),
-(213, -6, 28),
-(206, -6, 31),
-(215, -6, 33),
-(257, -6, 38),
-(219, -5, 14),
-(221, -5, 25),
-(220, -5, 33),
-(241, -4, 5),
-(238, -4, 14),
-(240, -4, 16),
-(237, -4, 19),
-(242, -4, 25),
-(235, -4, 27),
-(239, -4, 28),
-(236, -4, 32),
-(258, -3, 31),
-(247, -2, 3),
-(246, -2, 4),
-(255, -2, 8),
-(252, -2, 9),
-(254, -2, 11),
-(248, -2, 15),
-(251, -2, 17),
-(256, -2, 24),
-(253, -2, 26),
-(245, -2, 30),
-(244, -2, 34),
-(249, -2, 35),
-(243, -2, 36),
-(250, -2, 37),
-(88, -1, 1),
-(23, -1, 2),
-(24, -1, 5);
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `Groups`
+-- Table structure for table `Groups`
 --
 
 DROP TABLE IF EXISTS `Groups`;
-CREATE TABLE IF NOT EXISTS `Groups` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Groups` (
   `Name` varchar(35) NOT NULL,
   `UID` int(11) NOT NULL,
   PRIMARY KEY (`UID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Daten für Tabelle `Groups`
---
-
-INSERT INTO `Groups` (`Name`, `UID`) VALUES
-('6-Developer', -7),
-('5-Bürokrat', -6),
-('4-Team Coordinator', -5),
-('3-Shift Coordinator', -4),
-('Shirt-Manager', -3),
-('2-Engel', -2),
-('1-Gast', -1);
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `LogEntries`
+-- Table structure for table `LogEntries`
 --
 
 DROP TABLE IF EXISTS `LogEntries`;
-CREATE TABLE IF NOT EXISTS `LogEntries` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LogEntries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` int(11) NOT NULL,
   `nick` text NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `timestamp` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2773 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `Messages`
+-- Table structure for table `Messages`
 --
 
 DROP TABLE IF EXISTS `Messages`;
-CREATE TABLE IF NOT EXISTS `Messages` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Datum` int(11) NOT NULL,
   `SUID` int(11) NOT NULL DEFAULT '0',
@@ -152,17 +100,20 @@ CREATE TABLE IF NOT EXISTS `Messages` (
   PRIMARY KEY (`id`),
   KEY `Datum` (`Datum`),
   KEY `SUID` (`SUID`),
-  KEY `RUID` (`RUID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Fuers interen Communikationssystem' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `RUID` (`RUID`),
+  CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`SUID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`RUID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Fuers interen Communikationssystem';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `NeededAngelTypes`
+-- Table structure for table `NeededAngelTypes`
 --
 
 DROP TABLE IF EXISTS `NeededAngelTypes`;
-CREATE TABLE IF NOT EXISTS `NeededAngelTypes` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `NeededAngelTypes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `room_id` int(11) DEFAULT NULL,
   `shift_id` int(11) DEFAULT NULL,
@@ -171,17 +122,21 @@ CREATE TABLE IF NOT EXISTS `NeededAngelTypes` (
   PRIMARY KEY (`id`),
   KEY `room_id` (`room_id`,`angel_type_id`),
   KEY `shift_id` (`shift_id`),
-  KEY `angel_type_id` (`angel_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `angel_type_id` (`angel_type_id`),
+  CONSTRAINT `neededangeltypes_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `Room` (`RID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `neededangeltypes_ibfk_2` FOREIGN KEY (`shift_id`) REFERENCES `Shifts` (`SID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `neededangeltypes_ibfk_3` FOREIGN KEY (`angel_type_id`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6819 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `News`
+-- Table structure for table `News`
 --
 
 DROP TABLE IF EXISTS `News`;
-CREATE TABLE IF NOT EXISTS `News` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `News` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Datum` int(11) NOT NULL,
   `Betreff` varchar(150) NOT NULL DEFAULT '',
@@ -189,17 +144,19 @@ CREATE TABLE IF NOT EXISTS `News` (
   `UID` int(11) NOT NULL DEFAULT '0',
   `Treffen` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
-  KEY `UID` (`UID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `UID` (`UID`),
+  CONSTRAINT `news_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `NewsComments`
+-- Table structure for table `NewsComments`
 --
 
 DROP TABLE IF EXISTS `NewsComments`;
-CREATE TABLE IF NOT EXISTS `NewsComments` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `NewsComments` (
   `ID` bigint(11) NOT NULL AUTO_INCREMENT,
   `Refid` int(11) NOT NULL DEFAULT '0',
   `Datum` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -207,75 +164,36 @@ CREATE TABLE IF NOT EXISTS `NewsComments` (
   `UID` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   KEY `Refid` (`Refid`),
-  KEY `UID` (`UID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `UID` (`UID`),
+  CONSTRAINT `newscomments_ibfk_1` FOREIGN KEY (`Refid`) REFERENCES `News` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `newscomments_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `Privileges`
+-- Table structure for table `Privileges`
 --
 
 DROP TABLE IF EXISTS `Privileges`;
-CREATE TABLE IF NOT EXISTS `Privileges` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Privileges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `desc` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Daten für Tabelle `Privileges`
---
-
-INSERT INTO `Privileges` (`id`, `name`, `desc`) VALUES
-(1, 'start', 'Startseite für Gäste/Nicht eingeloggte User'),
-(2, 'login', 'Logindialog'),
-(3, 'news', 'Anzeigen der News-Seite'),
-(4, 'logout', 'User darf sich ausloggen'),
-(5, 'register', 'Einen neuen Engel registerieren'),
-(6, 'admin_rooms', 'Räume administrieren'),
-(7, 'admin_angel_types', 'Engel Typen administrieren'),
-(8, 'user_settings', 'User profile settings'),
-(9, 'user_messages', 'Writing and reading messages from user to user'),
-(10, 'admin_groups', 'Manage usergroups and their rights'),
-(11, 'user_questions', 'Let users ask questions'),
-(12, 'admin_questions', 'Answer user''s questions'),
-(13, 'admin_faq', 'Edit FAQs'),
-(14, 'admin_news', 'Administrate the news section'),
-(15, 'news_comments', 'User can comment news'),
-(16, 'admin_user', 'Administrate the angels'),
-(17, 'user_meetings', 'Lists meetings (news)'),
-(18, 'admin_language', 'Translate the system'),
-(19, 'admin_log', 'Display recent changes'),
-(20, 'user_wakeup', 'User wakeup-service organization'),
-(21, 'admin_import', 'Import rooms and shifts from pentabarf'),
-(22, 'credits', 'View credits'),
-(23, 'faq', 'View FAQ'),
-(24, 'user_shifts', 'Signup for shifts'),
-(25, 'user_shifts_admin', 'Signup other angels for shifts.'),
-(26, 'user_myshifts', 'Allow angels to view their own shifts and cancel them.'),
-(27, 'admin_arrive', 'Mark angels when they arrive.'),
-(28, 'admin_shifts', 'Create shifts'),
-(30, 'ical', 'iCal shift export'),
-(31, 'admin_active', 'Mark angels as active and if they got a t-shirt.'),
-(32, 'admin_free', 'Show a list of free/unemployed angels.'),
-(33, 'admin_user_angeltypes', 'Confirm restricted angel types'),
-(34, 'atom', ' Atom news export'),
-(35, 'shifts_json_export', 'Export shifts in JSON format'),
-(36, 'angeltypes', 'View angeltypes'),
-(37, 'user_angeltypes', 'Join angeltypes.'),
-(38, 'shifttypes', 'Administrate shift types');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `Questions`
+-- Table structure for table `Questions`
 --
 
 DROP TABLE IF EXISTS `Questions`;
-CREATE TABLE IF NOT EXISTS `Questions` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Questions` (
   `QID` bigint(20) NOT NULL AUTO_INCREMENT,
   `UID` int(11) NOT NULL DEFAULT '0',
   `Question` text NOT NULL,
@@ -283,17 +201,20 @@ CREATE TABLE IF NOT EXISTS `Questions` (
   `Answer` text,
   PRIMARY KEY (`QID`),
   KEY `UID` (`UID`),
-  KEY `AID` (`AID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Fragen und Antworten' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `AID` (`AID`),
+  CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`AID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Fragen und Antworten';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `Room`
+-- Table structure for table `Room`
 --
 
 DROP TABLE IF EXISTS `Room`;
-CREATE TABLE IF NOT EXISTS `Room` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Room` (
   `RID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(35) NOT NULL DEFAULT '',
   `Man` text,
@@ -302,16 +223,17 @@ CREATE TABLE IF NOT EXISTS `Room` (
   `Number` int(11) DEFAULT NULL,
   PRIMARY KEY (`RID`),
   UNIQUE KEY `Name` (`Name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `ShiftEntry`
+-- Table structure for table `ShiftEntry`
 --
 
 DROP TABLE IF EXISTS `ShiftEntry`;
-CREATE TABLE IF NOT EXISTS `ShiftEntry` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ShiftEntry` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `SID` int(11) NOT NULL DEFAULT '0',
   `TID` int(11) NOT NULL DEFAULT '0',
@@ -323,17 +245,39 @@ CREATE TABLE IF NOT EXISTS `ShiftEntry` (
   KEY `TID` (`TID`),
   KEY `UID` (`UID`),
   KEY `SID` (`SID`,`TID`),
-  KEY `freeloaded` (`freeloaded`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+  KEY `freeloaded` (`freeloaded`),
+  CONSTRAINT `shiftentry_ibfk_1` FOREIGN KEY (`SID`) REFERENCES `Shifts` (`SID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `shiftentry_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `shiftentry_ibfk_3` FOREIGN KEY (`TID`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=527 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `Shifts`
+-- Table structure for table `ShiftTypes`
+--
+
+DROP TABLE IF EXISTS `ShiftTypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ShiftTypes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `angeltype_id` int(11) DEFAULT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `angeltype_id` (`angeltype_id`),
+  CONSTRAINT `shifttypes_ibfk_1` FOREIGN KEY (`angeltype_id`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Shifts`
 --
 
 DROP TABLE IF EXISTS `Shifts`;
-CREATE TABLE IF NOT EXISTS `Shifts` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Shifts` (
   `SID` int(11) NOT NULL AUTO_INCREMENT,
   `title` text,
   `shifttype_id` int(11) NOT NULL,
@@ -351,40 +295,22 @@ CREATE TABLE IF NOT EXISTS `Shifts` (
   KEY `RID` (`RID`),
   KEY `shifttype_id` (`shifttype_id`),
   KEY `created_by_user_id` (`created_by_user_id`),
-  KEY `edited_by_user_id` (`edited_by_user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=133 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `ShiftTypes`
---
-
-DROP TABLE IF EXISTS `ShiftTypes`;
-CREATE TABLE IF NOT EXISTS `ShiftTypes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `angeltype_id` int(11) DEFAULT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `angeltype_id` (`angeltype_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  KEY `edited_by_user_id` (`edited_by_user_id`),
+  CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`RID`) REFERENCES `Room` (`RID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `shifts_ibfk_2` FOREIGN KEY (`shifttype_id`) REFERENCES `ShiftTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `shifts_ibfk_3` FOREIGN KEY (`created_by_user_id`) REFERENCES `User` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `shifts_ibfk_4` FOREIGN KEY (`edited_by_user_id`) REFERENCES `User` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Daten für Tabelle `ShiftTypes`
---
-
-INSERT INTO `ShiftTypes` (`id`, `name`, `angeltype_id`, `description`) VALUES
-(4, 'Schichttyp1', NULL, '');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `User`
+-- Table structure for table `User`
 --
 
 DROP TABLE IF EXISTS `User`;
-CREATE TABLE IF NOT EXISTS `User` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `User` (
   `UID` int(11) NOT NULL AUTO_INCREMENT,
   `Nick` varchar(23) NOT NULL DEFAULT '',
   `Name` varchar(23) DEFAULT NULL,
@@ -423,23 +349,17 @@ CREATE TABLE IF NOT EXISTS `User` (
   KEY `force_active` (`force_active`),
   KEY `arrival_date` (`arrival_date`,`planned_arrival_date`),
   KEY `planned_departure_date` (`planned_departure_date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Daten für Tabelle `User`
---
-
-INSERT INTO `User` (`UID`, `Nick`, `Name`, `Vorname`, `Alter`, `Telefon`, `DECT`, `Handy`, `email`, `email_shiftinfo`, `jabber`, `Size`, `Passwort`, `password_recovery_token`, `Gekommen`, `Aktiv`, `force_active`, `Tshirt`, `color`, `Sprache`, `Menu`, `lastLogIn`, `CreateDate`, `Art`, `kommentar`, `Hometown`, `api_key`, `got_voucher`, `arrival_date`, `planned_arrival_date`, `planned_departure_date`) VALUES
-(1, 'admin', 'Gates', 'Bill', 42, '', '-', '', 'admin@example.com', 1, '', 'XL', '$6$rounds=5000$hjXbIhoRTH3vKiRa$Wl2P2iI5T9iRR.HHu/YFHswBW0WVn0yxCfCiX0Keco9OdIoDK6bIAADswP6KvMCJSwTGdV8PgA8g8Xfw5l8BD1', NULL, 1, 1, 0, 1, 2, 'de_DE.UTF-8', 'L', 1439759300, '0000-00-00 00:00:00', '', '', '', '038850abdd1feb264406be3ffa746235', 3, 1439490478, 1436964455, 1440161255);
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `UserAngelTypes`
+-- Table structure for table `UserAngelTypes`
 --
 
 DROP TABLE IF EXISTS `UserAngelTypes`;
-CREATE TABLE IF NOT EXISTS `UserAngelTypes` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserAngelTypes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `angeltype_id` int(11) NOT NULL,
@@ -449,117 +369,59 @@ CREATE TABLE IF NOT EXISTS `UserAngelTypes` (
   KEY `user_id` (`user_id`,`angeltype_id`,`confirm_user_id`),
   KEY `angeltype_id` (`angeltype_id`),
   KEY `confirm_user_id` (`confirm_user_id`),
-  KEY `coordinator` (`coordinator`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
-
--- --------------------------------------------------------
+  KEY `coordinator` (`coordinator`),
+  CONSTRAINT `userangeltypes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userangeltypes_ibfk_2` FOREIGN KEY (`angeltype_id`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userangeltypes_ibfk_3` FOREIGN KEY (`confirm_user_id`) REFERENCES `User` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Tabellenstruktur für Tabelle `UserGroups`
+-- Table structure for table `UserDriverLicenses`
+--
+
+DROP TABLE IF EXISTS `UserDriverLicenses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserDriverLicenses` (
+  `user_id` int(11) NOT NULL,
+  `has_car` tinyint(1) NOT NULL,
+  `has_license_car` tinyint(1) NOT NULL,
+  `has_license_3_5t_transporter` tinyint(1) NOT NULL,
+  `has_license_7_5t_truck` tinyint(1) NOT NULL,
+  `has_license_12_5t_truck` tinyint(1) NOT NULL,
+  `has_license_forklift` tinyint(1) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  CONSTRAINT `userdriverlicenses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `UserGroups`
 --
 
 DROP TABLE IF EXISTS `UserGroups`;
-CREATE TABLE IF NOT EXISTS `UserGroups` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserGroups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`,`group_id`),
-  KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `usergroups_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `usergroups_ibfk_2` FOREIGN KEY (`uid`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Daten für Tabelle `UserGroups`
---
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `UserGroups` (`id`, `uid`, `group_id`) VALUES
-(3, 1, -7),
-(4, 1, -6),
-(12, 1, -5),
-(2, 1, -4),
-(1, 1, -2);
-
---
--- Constraints der exportierten Tabellen
---
-
---
--- Constraints der Tabelle `GroupPrivileges`
---
-ALTER TABLE `GroupPrivileges`
-  ADD CONSTRAINT `groupprivileges_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `groupprivileges_ibfk_2` FOREIGN KEY (`privilege_id`) REFERENCES `Privileges` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `Messages`
---
-ALTER TABLE `Messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`SUID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`RUID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `NeededAngelTypes`
---
-ALTER TABLE `NeededAngelTypes`
-  ADD CONSTRAINT `neededangeltypes_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `Room` (`RID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `neededangeltypes_ibfk_2` FOREIGN KEY (`shift_id`) REFERENCES `Shifts` (`SID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `neededangeltypes_ibfk_3` FOREIGN KEY (`angel_type_id`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `News`
---
-ALTER TABLE `News`
-  ADD CONSTRAINT `news_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `NewsComments`
---
-ALTER TABLE `NewsComments`
-  ADD CONSTRAINT `newscomments_ibfk_1` FOREIGN KEY (`Refid`) REFERENCES `News` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `newscomments_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `Questions`
---
-ALTER TABLE `Questions`
-  ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`AID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `ShiftEntry`
---
-ALTER TABLE `ShiftEntry`
-  ADD CONSTRAINT `shiftentry_ibfk_1` FOREIGN KEY (`SID`) REFERENCES `Shifts` (`SID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shiftentry_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shiftentry_ibfk_3` FOREIGN KEY (`TID`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `Shifts`
---
-ALTER TABLE `Shifts`
-  ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`RID`) REFERENCES `Room` (`RID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shifts_ibfk_2` FOREIGN KEY (`shifttype_id`) REFERENCES `ShiftTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `shifts_ibfk_3` FOREIGN KEY (`created_by_user_id`) REFERENCES `User` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `shifts_ibfk_4` FOREIGN KEY (`edited_by_user_id`) REFERENCES `User` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `ShiftTypes`
---
-ALTER TABLE `ShiftTypes`
-  ADD CONSTRAINT `shifttypes_ibfk_1` FOREIGN KEY (`angeltype_id`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `UserAngelTypes`
---
-ALTER TABLE `UserAngelTypes`
-  ADD CONSTRAINT `userangeltypes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `userangeltypes_ibfk_2` FOREIGN KEY (`angeltype_id`) REFERENCES `AngelTypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `userangeltypes_ibfk_3` FOREIGN KEY (`confirm_user_id`) REFERENCES `User` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `UserGroups`
---
-ALTER TABLE `UserGroups`
-  ADD CONSTRAINT `usergroups_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `Groups` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `usergroups_ibfk_2` FOREIGN KEY (`uid`) REFERENCES `User` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
+-- Dump completed on 2016-12-05 14:47:27
